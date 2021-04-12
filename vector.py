@@ -11,6 +11,42 @@ class Vector:
     def __str__(self):
         return '({}, {}, {})'.format(self.x0, self.x1, self.x2)
 
+    def __eq__(self, other):
+        """Vectors comparison"""
+        return self.x0 == other.x0 and self.x1 == other.x1 and self.x2 == other.x2
+
+    def __add__(self, other):
+        """Vectors addition"""
+        return Vector(self.x0 + other.x0, self.x1 + other.x1, self.x2 + other.x2)
+
+    def __sub__(self, other):
+        """Vectors subtraction"""
+        return Vector(self.x0 - other.x0, self.x1 - other.x1, self.x2 - other.x2)
+
+    def __mul__(self, other):
+        """Vector-scalar multiplication"""
+        return Vector(self.x0 * other.x0, self.x1 * other.x1, self.x2 * other.x2)
+
+    def __truediv__(self, other):
+        """Vectors division"""
+        try:
+            return Vector(self.x0 / other.x0, self.x1 / other.x1, self.x2 / other.x2)
+        except ZeroDivisionError:
+            return Vector(math.inf, math.inf, math.inf)
+
+    def multiply(self, other):
+        """Vectors multiplication scalar"""
+        assert not isinstance(other, Vector), 'operand < * > is not used in vector-scalar multiplication. ' \
+                                              'You need apply method v.multiply(number) or vector*one_vector'
+        return Vector(self.x0 * other, self.x1 * other, self.x2 * other)
+
+    def divide(self, other):
+        """Vectors multiplication scalar"""
+        try:
+            return Vector(self.x0 / other, self.x1 / other, self.x2 / other)
+        except ZeroDivisionError:
+            return Vector(math.inf, math.inf, math.inf)
+
     def dot(self, other):
         """Dot product of two vectors"""
         return self.x0 * other.x0 + self.x1 * other.x1 + self.x2 * other.x2
@@ -18,3 +54,9 @@ class Vector:
     def norm(self):
         """Vector norm"""
         return math.sqrt(self.dot(self))
+
+    def normalize(self):
+        """Vector normalize"""
+        return self / self.norm()
+
+
