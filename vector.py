@@ -32,7 +32,20 @@ class Vector:
         try:
             return Vector(self.x0 / other.x0, self.x1 / other.x1, self.x2 / other.x2)
         except ZeroDivisionError:
-            return Vector(math.inf, math.inf, math.inf)
+            try:
+                x0 = self.x0 / other.x0
+            except:
+                x0 = math.inf
+            try:
+                x1 = self.x1 / other.x1
+            except:
+                x1 = math.inf
+            try:
+                x2 = self.x2 / other.x2
+            except:
+                x2 = math.inf
+
+            return Vector(x0, x1, x2)
 
     def multiply(self, other):
         """Vectors multiplication scalar"""
