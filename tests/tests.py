@@ -4,6 +4,7 @@ import math
 
 sys.path.append(os.getcwd())
 from vector import *
+from frame import *
 
 
 class VectorsTest(unittest.TestCase):
@@ -59,6 +60,15 @@ class VectorsTest(unittest.TestCase):
         vec = Vector(3.0, 4.0, 0.0)
         self.assertEqual(vec.divide(vec.norm()).__str__(), Vector(3 / 5, 4 / 5, 0 / 5).__str__())
 
+class FrameTest(unittest.TestCase):
+    """Frame class test"""
+    def setUp(self):
+        self.img = Frame(4, 5)
+        self.color = Vector(1.0, 0.0, 0.0)
+
+    def test_set_pixel(self):
+        self.img.set_pixel(3, 4, self.color)
+        self.assertEqual(self.img.pixels[3][4].__str__(), Vector(1.0, 0.0, 0.0).__str__())
 
 if __name__ == '__main__':
     unittest.main()

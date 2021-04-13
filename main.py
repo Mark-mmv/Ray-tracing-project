@@ -1,15 +1,20 @@
 import sys, os
 from vector import *
+from frame import Frame
+from color import Color
 
 
-def print_hi(name):
-    vec0 = Vector()
-    vec1 = Vector(1.0, 2.0, 3.0)
-    vec2 = Vector(5.0, 10.0)
-    print(vec1 / vec2.multiply(0))
+def main():
+    WIDTH = 3
+    HEIGHT = 2
+    img = Frame(WIDTH, HEIGHT)
+    green = Color(x0=0, x1=1, x2=0)
+    img.set_pixel(0, 0, green)
+
 
 
 if __name__ == '__main__':
-    print_hi('Ray tracing')
+    main()
+
 
 
