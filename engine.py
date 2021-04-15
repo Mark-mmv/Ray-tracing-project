@@ -30,11 +30,13 @@ class RenderRT:
         return image
 
     def ray_trace(self, scene, ray):
+        color = Color.read_hex("#444422")
         distance_hit, obj_hit = self.find_nearest(ray, scene)
         if obj_hit is None:
-            return Color(100, 100, 100)
+            return color
         hit_pos = ray.origin + ray.direction.multiply(distance_hit)
-        color = self.color_add(obj_hit, hit_pos, scene)
+        hit_normal = obj_hit.normal(hit_pos)
+        color = self.color_add(obj_hit, hit_pos, hit_normal, scene)
         return color
 
     def find_nearest(self, ray, scene):
@@ -47,5 +49,21 @@ class RenderRT:
                 obj_hit = obj
         return (distance_min, obj_hit)
 
-    def color_add(self, obj_hit, hit_pos, scene):
-        return obj_hit.material
+    def color_add(self, obj_hit, hit_pos, hit_normal, scene):
+        material = obj_hit.material
+        obj_color = material.color_at(hit_pos)
+        to_cam = scene.camera - hit_pos
+        color = Color.read_hex("#000000").multiply(material.ambient)
+        specular_k = 50
+
+        for light in scene.lights:
+            ray_light = Ray(hit_pos, light.position - hit_pos)
+
+            # Diffuse illumination Lambert
+            color += (obj_color.multiply(material.diffuse * max(hit_normal.dot(ray_light.direction), 0)))
+
+            # Specular illumination Blinn-Phong
+            half_vector = (ray_light.direction + to_cam).normalize()
+            color += (light.color.multiply(material.specular * max(hit_normal.dot(half_vector), 0) ** specular_k))
+
+        return color

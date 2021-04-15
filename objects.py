@@ -21,3 +21,7 @@ class Sphere:
             if distance_coefficient > 0:
                 return distance_coefficient
         return None
+
+    def normal(self, surf_point):
+        """Return surface normal of sphere"""
+        return (surf_point - self.center).normalize()
