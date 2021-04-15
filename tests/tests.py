@@ -9,6 +9,7 @@ from frame import *
 
 class VectorsTest(unittest.TestCase):
     """Vector class tests"""
+
     def setUp(self):
         self.vec1 = Vector(6.0, -2.0, 3.0)
         self.vec2 = Vector(-1.0, 2.0, 3.0)
@@ -60,6 +61,7 @@ class VectorsTest(unittest.TestCase):
         vec = Vector(3.0, 4.0, 0.0)
         self.assertEqual(vec.divide(vec.norm()).__str__(), Vector(3 / 5, 4 / 5, 0 / 5).__str__())
 
+
 class FrameTest(unittest.TestCase):
     """Frame class test"""
     def setUp(self):
@@ -69,6 +71,7 @@ class FrameTest(unittest.TestCase):
     def test_set_pixel(self):
         self.img.set_pixel(3, 4, self.color)
         self.assertEqual(self.img.pixels[3][4].__str__(), Vector(1.0, 0.0, 0.0).__str__())
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -70,6 +70,6 @@ class Vector:
 
     def normalize(self):
         """Vector normalize"""
-        return self / self.norm()
+        return self.divide(self.norm())
 
 

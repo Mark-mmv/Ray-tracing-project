@@ -2,23 +2,23 @@ import sys, os
 from vector import *
 from frame import Frame
 from color import Color
+from point import Point
+from objects import Sphere
+from scene import Scene
+from engine import RenderRT
 
 
 def main():
     HEIGHT = 300
     WIDTH = 400
-    img = Frame(HEIGHT, WIDTH)
 
-    for row in range(HEIGHT):
-        for i in range(WIDTH):
-            px = Color(x0=(1+i)*0.005, x1=(1+i)*0.01, x2=(1+i)*0.003)
-            img.set_pixel(row, i, px)
-
-    img.convert_to_png('Test_img_1.png')
+    camera = Vector(0.0, 0.0, -1.0)
+    objects = [Sphere(Point(0.0, 0.0, 0.0), 0.5, Color.read_hex("#AAFF00"))]
+    scene = Scene(camera, objects, HEIGHT, WIDTH)
+    engine = RenderRT()
+    image = engine.render(scene)
+    image.convert_to_png('Sphere test1.png')
 
 
 if __name__ == '__main__':
     main()
-
-
-
