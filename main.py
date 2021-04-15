@@ -5,12 +5,16 @@ from color import Color
 
 
 def main():
-    WIDTH = 3
-    HEIGHT = 2
-    img = Frame(WIDTH, HEIGHT)
-    green = Color(x0=0, x1=1, x2=0)
-    img.set_pixel(0, 0, green)
+    HEIGHT = 300
+    WIDTH = 400
+    img = Frame(HEIGHT, WIDTH)
 
+    for row in range(HEIGHT):
+        for i in range(WIDTH):
+            px = Color(x0=(1+i)*0.005, x1=(1+i)*0.01, x2=(1+i)*0.003)
+            img.set_pixel(row, i, px)
+
+    img.convert_to_png('Test_img_1.png')
 
 
 if __name__ == '__main__':
