@@ -10,6 +10,8 @@ class RenderRT:
     def render(self, scene):
         height = scene.height
         width = scene.width
+        self.max_depth = 3
+        self.min_distance = 0.001
         cam_ratio = float(width / height)
         x0 = -1.0
         x1 = 1.0
@@ -29,7 +31,7 @@ class RenderRT:
                 image.set_pixel(j, i, self.ray_trace(scene, ray))
         return image
 
-    def ray_trace(self, scene, ray):
+    def ray_trace(self, scene, ray, depth=0):
         color = Color.read_hex("#444422")
         distance_hit, obj_hit = self.find_nearest(ray, scene)
         if obj_hit is None:
@@ -37,6 +39,11 @@ class RenderRT:
         hit_pos = ray.origin + ray.direction.multiply(distance_hit)
         hit_normal = obj_hit.normal(hit_pos)
         color = self.color_add(obj_hit, hit_pos, hit_normal, scene)
+        if depth < self.max_depth:
+            new_ray_pos = hit_pos + hit_normal.multiply(self.min_distance)
+            new_ray_dir = ray.direction - hit_normal.multiply(2 * ray.direction.dot(hit_normal))
+            new_ray = Ray(new_ray_pos, new_ray_dir)
+            color += self.ray_trace(scene, new_ray, depth+1).multiply(obj_hit.material.reflection)
         return color
 
     def find_nearest(self, ray, scene):
