@@ -32,7 +32,7 @@ class RenderRT:
         return image
 
     def ray_trace(self, scene, ray, depth=0):
-        color = Color.read_hex("#444422")
+        color = Color.read_hex("#444455")
         distance_hit, obj_hit = self.find_nearest(ray, scene)
         if obj_hit is None:
             return color
